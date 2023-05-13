@@ -7,6 +7,9 @@ import {
   collection,
   addDoc,
   serverTimestamp,
+  onSnapshot,
+  query,
+  orderBy,
 } from 'firebase/firestore';
 
 // TODO: Add SDKs for Firebase products that you want to use
@@ -55,9 +58,25 @@ async function sendMessage(roomId, user, text) {
   }
 }
 
+const getMessages = (roomId, callback) => {
+  return onSnapshot(
+    query(
+      collection(db, 'chat-rooms', roomId, 'messages'),
+      orderBy('timestamp', 'asc')
+    ),
+    querySnapshot => {
+      const messages = querySnapshot.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+      callback(messages);
+    }
+  );
+};
+
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 // const analytics = getAnalytics(app);
 const db = getFirestore(app);
 
-export {loginWithGoogle, sendMessage};
+export {loginWithGoogle, sendMessage, getMessages};
