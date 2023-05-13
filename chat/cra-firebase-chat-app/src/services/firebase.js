@@ -1,7 +1,7 @@
 // Import the functions you need from the SDKs you need
 // import {getAnalytics} from 'firebase/analytics';
-import {initializeApp} from 'firebase/app';
-import {GoogleAuthProvider, getAuth, signInWithPopup} from 'firebase/auth';
+import { initializeApp } from "firebase/app";
+import { GoogleAuthProvider, getAuth, signInWithPopup } from "firebase/auth";
 import {
   getFirestore,
   collection,
@@ -10,7 +10,7 @@ import {
   onSnapshot,
   query,
   orderBy,
-} from 'firebase/firestore';
+} from "firebase/firestore";
 
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -18,7 +18,6 @@ import {
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-  //   apiKey: "AIzaSyAp54c5XKHIxhC2q1sERrJ8wHp0dbyziBY",
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
   authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
   projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
@@ -33,11 +32,11 @@ async function loginWithGoogle() {
     const provider = new GoogleAuthProvider();
     const auth = getAuth();
 
-    const {user} = await signInWithPopup(auth, provider);
+    const { user } = await signInWithPopup(auth, provider);
 
-    return {uid: user.uid, displayName: user.displayName};
+    return { uid: user.uid, displayName: user.displayName };
   } catch (error) {
-    if (error.code !== 'auth/cancelled-popup-request') {
+    if (error.code !== "auth/cancelled-popup-request") {
       console.error(error);
     }
 
@@ -47,7 +46,7 @@ async function loginWithGoogle() {
 
 async function sendMessage(roomId, user, text) {
   try {
-    await addDoc(collection(db, 'chat-rooms', roomId, 'messages'), {
+    await addDoc(collection(db, "chat-rooms", roomId, "messages"), {
       uid: user.uid,
       displayName: user.displayName,
       text: text.trim(),
@@ -61,11 +60,11 @@ async function sendMessage(roomId, user, text) {
 const getMessages = (roomId, callback) => {
   return onSnapshot(
     query(
-      collection(db, 'chat-rooms', roomId, 'messages'),
-      orderBy('timestamp', 'asc')
+      collection(db, "chat-rooms", roomId, "messages"),
+      orderBy("timestamp", "asc")
     ),
-    querySnapshot => {
-      const messages = querySnapshot.docs.map(doc => ({
+    (querySnapshot) => {
+      const messages = querySnapshot.docs.map((doc) => ({
         id: doc.id,
         ...doc.data(),
       }));
@@ -79,4 +78,4 @@ const app = initializeApp(firebaseConfig);
 // const analytics = getAnalytics(app);
 const db = getFirestore(app);
 
-export {loginWithGoogle, sendMessage, getMessages};
+export { loginWithGoogle, sendMessage, getMessages };
