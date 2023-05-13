@@ -1,6 +1,8 @@
 // Import the functions you need from the SDKs you need
 import { getAnalytics } from "firebase/analytics";
 import { initializeApp } from "firebase/app";
+import { GoogleAuthProvider, getAuth, signInWithPopup } from "firebase/auth";
+
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -17,8 +19,25 @@ const firebaseConfig = {
   measurementId: process.env.REACT_APP_FIREBASE_MEASUREMENT_ID,
 };
 
+async function loginWithGoogle() {
+  try {
+    const provider = new GoogleAuthProvider();
+    const auth = getAuth();
+
+    const { user } = await signInWithPopup(auth, provider);
+
+    return { uid: user.uid, displayName: user.displayName };
+  } catch (error) {
+    if (error.code !== "auth/cancelled-popup-request") {
+      console.error(error);
+    }
+
+    return null;
+  }
+}
+
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
 
-export { firebaseConfig };
+export { loginWithGoogle };
