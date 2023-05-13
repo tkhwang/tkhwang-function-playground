@@ -1,4 +1,7 @@
-const useMessages = roomId => {
+import React from "react";
+import { getMessages } from "../services/firebase";
+
+const useMessages = (roomId) => {
   const [messages, setMessages] = React.useState([]);
 
   React.useEffect(() => {
@@ -9,4 +12,4 @@ const useMessages = roomId => {
   return messages;
 };
 
-export {useMessages};
+export { useMessages };
