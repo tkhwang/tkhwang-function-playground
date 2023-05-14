@@ -1,5 +1,7 @@
 # cra-firebase-chat-app
 
+![img](https://github.com/tkhwang/tkhwang-etc/blob/master/img/2023/05/cra-chat-firebase-app.jpg?raw=true)
+
 ## Reference
 
 - [How to build a chatroom app with React and Firebase](https://blog.logrocket.com/how-to-build-chatroom-app-react-firebase/?utm_source=pocket_saves)
