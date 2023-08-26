@@ -1,6 +1,6 @@
 # tkhwang-making-hands-dirty-with-hands-on
 
-Repository for several hands-on to make my hands dirty
+make my hands dirty with hands-on
 
 ## Chatting
 
